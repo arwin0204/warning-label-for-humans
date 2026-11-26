@@ -13,10 +13,20 @@ ENTRY = (
     "it refuses to discuss. Do not shake. May cry at dog food commercials."
 )
 
+DEFAULT_OUTPUT_DIR = "/output"
+ENTRY_FILENAME = "entry.txt"
+
+
+def resolve_output_path() -> str:
+    """Return the entry file path, honouring the grader's output dir."""
+    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", DEFAULT_OUTPUT_DIR)
+    return os.path.join(out_dir, ENTRY_FILENAME)
+
 
 def main() -> None:
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
+    output_path = resolve_output_path()
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(ENTRY)
 
 
